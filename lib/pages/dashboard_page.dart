@@ -74,16 +74,11 @@ class DashboardPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 28,
+                    _BrandLogo(
+                      size: 56,
                       backgroundColor: Theme.of(
                         context,
-                      ).colorScheme.primary.withValues(alpha: 0.12),
-                      child: Icon(
-                        Icons.catching_pokemon,
-                        size: 30,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      ).colorScheme.primary.withValues(alpha: 0.10),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -226,22 +221,10 @@ class DashboardPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 18),
-                          Container(
-                            width: 74,
-                            height: 74,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white.withValues(alpha: 0.16),
-                              border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.35),
-                                width: 2,
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.catching_pokemon,
-                              color: Colors.white,
-                              size: 34,
-                            ),
+                          const _BrandLogo(
+                            size: 74,
+                            backgroundColor: Color(0x28FFFFFF),
+                            borderColor: Color(0x59FFFFFF),
                           ),
                         ],
                       ),
@@ -397,4 +380,41 @@ class _DashboardItem {
   final String subtitle;
   final IconData icon;
   final Widget Function() pageBuilder;
+}
+
+class _BrandLogo extends StatelessWidget {
+  const _BrandLogo({
+    required this.size,
+    required this.backgroundColor,
+    this.borderColor,
+  });
+
+  final double size;
+  final Color backgroundColor;
+  final Color? borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      padding: EdgeInsets.all(size * 0.14),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: backgroundColor,
+        border: borderColor == null
+            ? null
+            : Border.all(color: borderColor!, width: 2),
+      ),
+      child: Image.asset(
+        'assets/images/AppLogo.png',
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) => Icon(
+          Icons.image_outlined,
+          size: size * 0.42,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+    );
+  }
 }
